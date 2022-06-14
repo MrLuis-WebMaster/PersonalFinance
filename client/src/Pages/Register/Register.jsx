@@ -35,7 +35,7 @@ const Register = () => {
     SignUp(userCredentials.email,userCredentials.password).then( (result)=> {
       console.log(result)
       dispatch(sendUser(userCredentials))
-      navigate("/dashboard")    
+      navigate("/overview")    
     }).catch((error)=> {
 
       if (error.code === "auth/email-already-in-use" ) {
