@@ -21,6 +21,7 @@ import MenuProfile from '../MenuProfile/MenuProfile'
 import DataUsageIcon from '@mui/icons-material/DataUsage';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
+import CreateIcon from '@mui/icons-material/Create';
 
 const drawerWidth = 240;
 
@@ -153,7 +154,7 @@ const Dashboard = ({Component}) => {
                       </ListItemButton>
                     </ListItem>
                  </Link>
-                 <Link to="/operations">
+                 <Link to="/earnings">
                  <ListItem>
                     <ListItemButton
                       sx={{
@@ -171,9 +172,32 @@ const Dashboard = ({Component}) => {
                       >
                         <AnalyticsIcon/> 
                       </ListItemIcon>
-                        <ListItemText primary="Operations" sx={{ opacity: open ? 1 : 0 }} />
+                        <ListItemText primary="Earnings" sx={{ opacity: open ? 1 : 0 }} />
                     </ListItemButton>
                   </ListItem>
+                 </Link>
+
+                 <Link to="/expenses">
+                  <ListItem>
+                      <ListItemButton
+                        sx={{
+                          minHeight: 50,
+                          justifyContent: open ? 'initial' : 'center',
+                          px: 2.5,
+                        }}
+                      >
+                        <ListItemIcon
+                          sx={{
+                            minWidth: 0,
+                            mr: open ? 3 : 'auto',
+                            justifyContent: 'center',
+                          }}
+                        >
+                          <AddCircleOutlinedIcon/> 
+                        </ListItemIcon>
+                        <ListItemText primary="Expenses" sx={{ opacity: open ? 1 : 0 }} />
+                      </ListItemButton>
+                    </ListItem>
                  </Link>
 
                  <Link to="/createTransaction">
@@ -192,7 +216,7 @@ const Dashboard = ({Component}) => {
                             justifyContent: 'center',
                           }}
                         >
-                          <AddCircleOutlinedIcon/> 
+                          <CreateIcon/> 
                         </ListItemIcon>
                         <ListItemText primary="New transaction" sx={{ opacity: open ? 1 : 0 }} />
                       </ListItemButton>
