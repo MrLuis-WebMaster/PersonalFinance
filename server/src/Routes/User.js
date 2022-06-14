@@ -3,6 +3,7 @@ const { User } = require("../db/db");
 
 const router = Router();
 
+
 router.post("/user", async ( req, res )=> {
     const {fullName,email} = req.body;
     try {
