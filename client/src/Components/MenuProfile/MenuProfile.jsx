@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useSelector} from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux'
 import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
@@ -12,11 +12,12 @@ import Tooltip from '@mui/material/Tooltip';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { LogoutSession } from '../../Authentication/LoginWorkFlow';
+import {resetUser} from '../../Redux/slices/users/users'
 
 const MenuProfile = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
-
+  const Dispacth = useDispatch()
   const navigate = useNavigate();
 
   const handleClick = (event) => {
@@ -26,15 +27,17 @@ const MenuProfile = () => {
     setAnchorEl(null);
   };
 
+
+  const user = useSelector(state => state.users.infoUser.userInfo)
+
   const handleLogout = () => {
       LogoutSession().then(()=> {
         navigate("/")
+        Dispacth(resetUser())
       }).catch((error)=> {
          console.log(error)
       })
   }
-  const user = useSelector(state => state.users.infoUser.userInfo)
-
 
    return (
     <React.Fragment>

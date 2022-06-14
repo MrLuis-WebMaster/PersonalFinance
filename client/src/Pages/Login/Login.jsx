@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import {Link, useNavigate} from "react-router-dom"
 //MUI
 import Avatar from '@mui/material/Avatar';
@@ -15,6 +16,7 @@ import GoogleIcon from '@mui/icons-material/Google';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import { ErrorAlert } from '../../Components/Alert/AlertMessage'
 import { LoginUser,LoginWithGoogle } from "../../Authentication/LoginWorkFlow";
+import { resetUser } from "../../Redux/slices/users/users";
 const Login = () => {
 
   const [userCredentials, setUserCredentials] = useState({
@@ -27,8 +29,8 @@ const Login = () => {
   const handleSubmit = (event) => {
 
     event.preventDefault();
-    
-    LoginUser(userCredentials.email,userCredentials.password).then( (result)=> {
+
+    LoginUser(userCredentials.email,userCredentials.password).then( () => {
       navigate("/overview")    
     }).catch((error)=> {
       if (error.code === "auth/internal-error") {
@@ -64,7 +66,13 @@ const Login = () => {
       console.log(error.code)
     })
 
+
   };
+  const Dispatch = useDispatch()
+
+  useEffect(()=>{
+    Dispatch(resetUser())
+  },[])
 
   const handleLoginGoogle = () => {
     LoginWithGoogle().then(()=> {
@@ -97,7 +105,7 @@ const Login = () => {
             backgroundPosition: 'center',
           }}
         />
-        <Grid item xs={12} sm={8} md={5} elevation={6} square>
+        <Grid item xs={12} sm={8} md={5} elevation={6}  square="true">
           <Box
             sx={{
               my: 8,

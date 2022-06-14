@@ -10,29 +10,31 @@ import Dashboard from '../../Components/Dashboard/Dashboard'
 import Loading from '../../Components/Loading/Loading';
 import LastTransactions from '../../Components/LastTransactions/LastTransactions';
 import TotalBalance from '../../Components/TotalBalance/TotalBalance';
-import { Helmet } from 'react-helmet';
-import { getUser } from '../../Redux/slices/users/users'
+import { getUser, resetUser } from '../../Redux/slices/users/users'
 
 const Overview = () => {
     const Dispatch = useDispatch();
     const auth = getAuth();
-
+    const user = useSelector(state => state.users.infoUser.userInfo)
     useEffect(()=>{
         onAuthStateChanged(auth, currentUser => {
-            Dispatch(getUser(currentUser))
+            if(currentUser) {
+                Dispatch(getUser(currentUser))
+            } else {
+                Dispatch(resetUser())
+            }
         })
-    },[Dispatch])  
+        return () => {
+            Dispatch(resetUser())
+        }
 
-    const user = useSelector(state => state.users.infoUser.userInfo)
+    },[Dispatch])  
 
     if (!user) {
         return <Loading/>
     } else {
         return ( 
             <>
-                <Helmet>
-                    <title> Overview | { user ? user.fullName : "user"} </title>
-                </Helmet>
                 <Dashboard 
                     Component = {
                         (

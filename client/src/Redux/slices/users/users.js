@@ -6,7 +6,8 @@ export const userSlice = createSlice({
   name: 'users',
   initialState:{
       user:{},
-      infoUser:{}
+      infoUser:{},
+
   },
   reducers: {
      postUser: (state,action) => {
@@ -14,11 +15,14 @@ export const userSlice = createSlice({
      },
      getInfoUser: (state,action) => {
          state.infoUser = action.payload
+     },
+     resetUser: (state,action) => {
+         state.infoUser = {}   
      }
   },
 })
 
-export const { postUser, getInfoUser } = userSlice.actions
+export const { postUser, getInfoUser, resetUser } = userSlice.actions
 
 export default userSlice.reducer;
 
@@ -31,9 +35,9 @@ export const sendUser = ({fullName,email}) => async (dispatch) => {
     }
 }
 
-export const getUser = ({email}) => async (dispatch) => {
+export const getUser = (user) => async (dispatch) => {
     try {
-        const response = await axios.get(`http://localhost:3001/user?email=${email}`);
+        const response = await axios.get(`http://localhost:3001/user?email=${user.email}`);
         dispatch(getInfoUser(response.data))
     } catch (error) {
         console.log(error)

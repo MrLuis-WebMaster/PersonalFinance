@@ -12,7 +12,6 @@ import Typography from '@mui/material/Typography';
 import { MenuItem } from "@mui/material";
 import { ErrorAlert } from '../../Components/Alert/AlertMessage'
 import Dashboard from "../../Components/Dashboard/Dashboard";
-import Helmet from 'react-helmet'
 
 const CreateTransactions = () => {
 
@@ -47,13 +46,10 @@ const CreateTransactions = () => {
 
   return (
       <>
-        <Helmet>
-            <title> Transaction | { false ? "user.fullName" : "user"} </title>
-       </Helmet>
       <Dashboard 
       Component={
           <Grid container component="main" sx={{ height: '100%' }}>
-        <Grid item xs={12} sm={8} md={12} elevation={6} square>
+        <Grid item xs={12} sm={8} md={12} elevation={6}  square="true">
           <Box
             sx={{
               my: 8,
