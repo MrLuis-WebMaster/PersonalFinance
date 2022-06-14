@@ -26,16 +26,15 @@ const Register = () => {
   const navigate = useNavigate();
   const user = useSelector(state => state.users.user)
 
-
   const handleSubmit = (event) => {
 
     event.preventDefault();
-    
+    console.log(user)
 
-    SignUp(userCredentials.email,userCredentials.password).then( (result)=> {
-      console.log(result)
-      dispatch(sendUser(userCredentials))
-      navigate("/overview")    
+    SignUp(userCredentials.email,userCredentials.password).then( async () => {
+      await dispatch(sendUser(userCredentials))
+      navigate("/overview")
+
     }).catch((error)=> {
 
       if (error.code === "auth/email-already-in-use" ) {

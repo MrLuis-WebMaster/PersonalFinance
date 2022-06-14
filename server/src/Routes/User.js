@@ -4,7 +4,8 @@ const { User } = require("../db/db");
 const router = Router();
 
 
-router.post("/user", async ( req, res )=> {
+router.post("/user", async ( req, res)=> {
+
     const {fullName,email} = req.body;
     try {
         
@@ -30,9 +31,9 @@ router.post("/user", async ( req, res )=> {
         res.status(400).json({error: error})
     }
 })
-router.get("/user", async ( req, res )=> {
+
+router.get("/user", async ( req, res, next )=> {
     const {email} = req.query;
-    console.log(email)
     try {
         if (email) {
             const userInfo = await User.findOne({
@@ -44,7 +45,7 @@ router.get("/user", async ( req, res )=> {
             if (userInfo) {
                 res.status(200).json({userInfo})
             } else {
-                res.status(200).json({response:"Not Found"})
+                res.status(400).json({response:"Not Found"})
             }
 
         } else {

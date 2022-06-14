@@ -5,12 +5,9 @@ import {
     getAuth,
     onAuthStateChanged 
   } from "firebase/auth";
-import { Grid } from '@mui/material'
 import Dashboard from '../../Components/Dashboard/Dashboard'
 import Loading from '../../Components/Loading/Loading';
-import LastTransactions from '../../Components/LastTransactions/LastTransactions';
-import TotalBalance from '../../Components/TotalBalance/TotalBalance';
-import { getUser } from '../../Redux/slices/users/users'
+import { getUser,resetUser } from '../../Redux/slices/users/users'
 import ListOperations from '../../Components/ListOperations/ListOperations';
 
 const Operations = () => {
@@ -19,7 +16,11 @@ const Operations = () => {
 
     useEffect(()=>{
         onAuthStateChanged(auth, currentUser => {
-            Dispatch(getUser(currentUser))
+            if(currentUser) {
+                Dispatch(getUser(currentUser))
+            } else {
+                Dispatch(resetUser())
+            }
         })
     },[Dispatch])  
 

@@ -35,14 +35,11 @@ export const sendUser = ({fullName,email}) => async (dispatch) => {
     }
 }
 
-export const getUser = ({email}) => async (dispatch) => {
-    if (email) {
-
-        try {
-            const response = await axios.get(`http://localhost:3001/user?email=${email}`);
-            dispatch(getInfoUser(response.data))
-        } catch (error) {
-            console.log(error)
-        }
+export const getUser = (user) => async (dispatch) => {
+    try {
+        const response = await axios.get(`http://localhost:3001/user?email=${user.email}`);
+        dispatch(getInfoUser(response.data))
+    } catch (error) {
+        console.log(error)
     }
 }

@@ -12,7 +12,7 @@ import Tooltip from '@mui/material/Tooltip';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { LogoutSession } from '../../Authentication/LoginWorkFlow';
-import {resetUser,getUser} from '../../Redux/slices/users/users'
+import {resetUser} from '../../Redux/slices/users/users'
 
 const MenuProfile = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);

@@ -30,7 +30,7 @@ const Login = () => {
 
     event.preventDefault();
 
-    LoginUser(userCredentials.email,userCredentials.password).then( (result)=> {
+    LoginUser(userCredentials.email,userCredentials.password).then( () => {
       navigate("/overview")    
     }).catch((error)=> {
       if (error.code === "auth/internal-error") {

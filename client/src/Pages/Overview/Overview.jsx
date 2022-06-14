@@ -15,23 +15,20 @@ import { getUser, resetUser } from '../../Redux/slices/users/users'
 const Overview = () => {
     const Dispatch = useDispatch();
     const auth = getAuth();
-
     const user = useSelector(state => state.users.infoUser.userInfo)
     useEffect(()=>{
         onAuthStateChanged(auth, currentUser => {
-            console.log(currentUser.email)
-            if(currentUser.email) {
+            if(currentUser) {
                 Dispatch(getUser(currentUser))
+            } else {
+                Dispatch(resetUser())
             }
         })
-
         return () => {
             Dispatch(resetUser())
         }
 
     },[Dispatch])  
-
-    console.log(user)
 
     if (!user) {
         return <Loading/>
