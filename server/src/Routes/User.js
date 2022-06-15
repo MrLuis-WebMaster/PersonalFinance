@@ -1,19 +1,21 @@
-const { Router } = require('express');
+const { Router } = require('express')
+const axios = require('axios');
 const { User } = require("../db/db");
 
 const router = Router();
 
-
 router.post("/user", async ( req, res)=> {
-
-    const {fullName,email} = req.body;
+    const {fullName,email,country} = req.body;
     try {
-        
-        if (fullName && email) {
+        if (fullName && email && country) {
+            const fetchCountries = await axios.get("http://localhost:3001/countries");
+            const {currency} = fetchCountries.data.AllCountries.find( e => e.name === country )
             const [user, created] = await User.findOrCreate({
                where: {
                     fullName,
-                    email
+                    email,
+                    country,
+                    currency
                },
                defaults: {
                    totalBalance: 0
