@@ -21,7 +21,12 @@ function App() {
             <Overview/>
           </ProtectedRoute>
         }/>
-        <Route path="/operations" element={
+        <Route path="/earnings" element={
+          <ProtectedRoute>
+            <Operations/>
+          </ProtectedRoute>
+        }/>
+        <Route path="/expenses" element={
           <ProtectedRoute>
             <Operations/>
           </ProtectedRoute>

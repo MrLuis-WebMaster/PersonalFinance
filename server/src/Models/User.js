@@ -19,6 +19,14 @@ module.exports = (sequelize) => {
     totalBalance: {
         type: DataTypes.DECIMAL,
         allowNull: true
+    },
+    country : {
+      type: DataTypes.STRING,
+      allowNull:false
+    },
+    currency : {
+      type: DataTypes.STRING,
+      allowNull:false
     }
   });
 };

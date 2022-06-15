@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {Link, useNavigate} from "react-router-dom"
 //MUI
@@ -10,15 +10,18 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import { InputLabel, Select, MenuItem } from "@mui/material";
 import { ErrorAlert } from '../../Components/Alert/AlertMessage'
 import { sendUser } from "../../Redux/slices/users/users";
 import {SignUp} from "../../Authentication/LoginWorkFlow";
+import { getCountries } from "../../Redux/slices/countries/countries";
 
 const Register = () => {
 
   const [userCredentials, setUserCredentials] = useState({
     fullName:"",
     email: "",
+    country:"",
     password:""
   })
 
@@ -26,44 +29,47 @@ const Register = () => {
   const navigate = useNavigate();
   const user = useSelector(state => state.users.user)
 
-  const handleSubmit = (event) => {
+  const fecthPostPromise = async (userCredentials) => {
+      try {
+          await Promise.all([
+            SignUp(userCredentials.email,userCredentials.password),
+            dispatch(sendUser(userCredentials))
+          ])
+          navigate("/overview")
+      } catch (error) {
+          if (error.code === "auth/email-already-in-use" ) {
+              ErrorAlert.fire({
+                title:"Email already in use",
+                icon:"error"
+              })
+          }
 
+          if (error.code === "auth/weak-password") {
+              ErrorAlert.fire({
+                title:"Weak Password",
+                icon:"error"
+              })
+          }
+
+          if (error.code === "auth/internal-error") {
+              ErrorAlert.fire({
+                title:"Email Invalid",
+                icon:"error"
+              })
+          }
+      }
+  }
+
+  const handleSubmit = event => {
     event.preventDefault();
-    console.log(user)
-
-    SignUp(userCredentials.email,userCredentials.password).then( async () => {
-      await dispatch(sendUser(userCredentials))
-      navigate("/overview")
-
-    }).catch((error)=> {
-
-      if (error.code === "auth/email-already-in-use" ) {
-          ErrorAlert.fire({
-            title:"Email already in use",
-            icon:"error"
-          })
-      }
-
-      if (error.code === "auth/weak-password") {
-          ErrorAlert.fire({
-            title:"Weak Password",
-            icon:"error"
-          })
-      }
-
-      if (error.code === "auth/internal-error") {
-          ErrorAlert.fire({
-            title:"Email Invalid",
-            icon:"error"
-          })
-      }
-
-
-    })
-
+    fecthPostPromise(userCredentials)
   };
 
+  const countries = useSelector( state => state.countries.countries.AllCountries)
 
+  useEffect( () =>{
+      dispatch(getCountries())
+  },[dispatch])
 
   const handleChange = ({target: {name,value}}) => {
     setUserCredentials({...userCredentials,[name]:value})
@@ -98,6 +104,32 @@ const Register = () => {
                   autoFocus
                   onChange={handleChange}
                 />
+              </Grid>
+
+              <Grid item xs={12}>
+                  <InputLabel id="country">Country</InputLabel>
+                  <Select
+                    label="Country"
+                    name="country"
+                    labelId="country"
+                    id="country"
+                    onChange={handleChange}
+                    sx={{ width: '100%'}}
+                  >
+                    {
+                     countries ? 
+                      countries.map( ({name}) => (
+                        <MenuItem
+                          key={name}
+                          value={name}
+                        >
+                          {name}
+                        </MenuItem>
+                      ))
+                      : null
+                    }
+ 
+                  </Select>
               </Grid>
 
               <Grid item xs={12}>

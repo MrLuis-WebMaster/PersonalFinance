@@ -16,6 +16,7 @@ const Overview = () => {
     const Dispatch = useDispatch();
     const auth = getAuth();
     const user = useSelector(state => state.users.infoUser.userInfo)
+    console.log(user)
     useEffect(()=>{
         onAuthStateChanged(auth, currentUser => {
             if(currentUser) {
@@ -41,10 +42,10 @@ const Overview = () => {
                             <div>
                                 <h1>Welcome {user.fullName}</h1>
                                 <Grid container spacing={5}>
-                                    <Grid item xs={6} md={6}>
+                                    <Grid item xs={12} md={6}>
                                         <LastTransactions/>
                                     </Grid>
-                                    <Grid item xs={6} md={6}>
+                                    <Grid item xs={12} md={6}>
                                         <TotalBalance/>
                                     </Grid>
                                 </Grid>
