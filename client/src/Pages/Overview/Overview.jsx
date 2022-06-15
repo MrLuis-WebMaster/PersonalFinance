@@ -16,6 +16,7 @@ const Overview = () => {
     const Dispatch = useDispatch();
     const auth = getAuth();
     const user = useSelector(state => state.users.infoUser.userInfo)
+    console.log(user)
     useEffect(()=>{
         onAuthStateChanged(auth, currentUser => {
             if(currentUser) {

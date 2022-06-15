@@ -26,9 +26,9 @@ export const { postUser, getInfoUser, resetUser } = userSlice.actions
 
 export default userSlice.reducer;
 
-export const sendUser = ({fullName,email}) => async (dispatch) => {
+export const sendUser = ({fullName,email,country}) => async (dispatch) => {
     try {
-        const response = await axios.post("http://localhost:3001/user",{fullName,email});
+        const response = await axios.post("http://localhost:3001/user",{fullName,email,country});
         dispatch(postUser(response.data))
     } catch (error) {
         console.log(error)
