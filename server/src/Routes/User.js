@@ -1,6 +1,6 @@
 const { Router } = require('express')
 const axios = require('axios');
-const { User } = require("../db/db");
+const { User, Earning, Expense } = require("../db/db");
 
 const router = Router();
 
@@ -19,7 +19,7 @@ router.post("/user", async ( req, res)=> {
                },
                defaults: {
                    totalBalance: 0
-               }
+               },
             });
             if (created) {
                 res.status(200).json({Name:fullName, Email:email})
@@ -41,7 +41,8 @@ router.get("/user", async ( req, res, next )=> {
             const userInfo = await User.findOne({
                where: {
                     email:email
-               }
+               },
+               include: [Earning,Expense]
             });
 
             if (userInfo) {

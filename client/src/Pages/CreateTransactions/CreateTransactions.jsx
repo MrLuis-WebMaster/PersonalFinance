@@ -1,48 +1,73 @@
-import { useState } from "react";
-import {Link, useNavigate} from "react-router-dom"
-//MUI
-import Avatar from '@mui/material/Avatar';
+import { useState, useEffect } from "react";
+import { useDispatch,useSelector } from "react-redux";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { MenuItem } from "@mui/material";
 import { ErrorAlert } from '../../Components/Alert/AlertMessage'
 import Dashboard from "../../Components/Dashboard/Dashboard";
+import { getCategories } from "../../Redux/slices/category/category";
+import { sendEarning, sendExpense } from "../../Redux/slices/transactions/transactions";
+import { getUser, resetUser } from '../../Redux/slices/users/users'
+import { 
+  getAuth,
+  onAuthStateChanged 
+} from "firebase/auth";
 
 const CreateTransactions = () => {
 
-  const handleSubmit = (event) => {
+  const dispatch = useDispatch()
+  
+  useEffect(()=> {
+    dispatch(getCategories())
+  },[])
 
+  const categories = useSelector( ({categories}) => categories.categories)
+
+  const auth = getAuth();
+  const user = useSelector(state => state.users.infoUser.userInfo)
+  console.log(user)
+  useEffect(()=>{
+      onAuthStateChanged(auth, currentUser => {
+          if(currentUser) {
+              dispatch(getUser(currentUser))
+          } else {
+              dispatch(resetUser())
+          }
+      })
+      return () => {
+          dispatch(resetUser())
+      }
+  },[dispatch])  
+  
+  const [informationTransaction, setinformationTransaction] = useState({
+      concept:'',
+      amount:'',
+      date:'',
+      type:'',
+      category:''
+  })
+
+  const handleSubmit = (event) => {
     event.preventDefault();
+    
+    if (informationTransaction.type === "Earning") {
+      dispatch(sendEarning(informationTransaction, user.id))
+      return
+    }
+    if (informationTransaction.type === "Expense") {
+      dispatch(sendExpense(informationTransaction, user.id))
+      return
+    }
     
   };
 
-  const handleChange = (e) => {
-      console.log(e)
+  const handleChange = ({target: {name,value}}) => {
+    setinformationTransaction({...informationTransaction,[name]:value})
   }
 
-  const currencies = [
-    {
-      value: 'USD',
-      label: '$',
-    },
-    {
-      value: 'EUR',
-      label: '€',
-    },
-    {
-      value: 'BTC',
-      label: '฿',
-    },
-    {
-      value: 'JPY',
-      label: '¥',
-    },
-];
 
   return (
       <>
@@ -59,7 +84,6 @@ const CreateTransactions = () => {
               alignItems: 'center',
             }}
           >
-
             <Typography component="h1" variant="h5">
               Create Transaction
             </Typography>
@@ -70,7 +94,7 @@ const CreateTransactions = () => {
                 fullWidth
                 id="Concept"
                 label="Concept"
-                name="Concept"
+                name="concept"
                 autoComplete="Concept"
                 autoFocus
                 onChange={handleChange}
@@ -79,7 +103,7 @@ const CreateTransactions = () => {
                 margin="normal"
                 required
                 fullWidth
-                name="Amount"
+                name="amount"
                 label="Amount"
                 type="number"
                 id="Amount"
@@ -89,29 +113,69 @@ const CreateTransactions = () => {
                 margin="normal"
                 required
                 fullWidth
-                name="Date"
-                label="Date"
+                name="date"
                 type="date"
                 id="Date"
                 onChange={handleChange}
               />
+              <TextField
+                  id="outlined-select-currency"
+                  select
+                  label="Select"
+                  // value={currency}
+                  name="type"
+                  onChange={handleChange}
+                  sx={{
+                    width:'50%'
+                  }}
+                  >
+                  <MenuItem value='Earning'>
+                    Earning
+                  </MenuItem>
+                  <MenuItem value='Expense'>
+                    Expense
+                  </MenuItem>
+
+              </TextField>
               
             <TextField
                 id="outlined-select-currency"
                 select
                 label="Select"
                 // value={currency}
+                name="category"
                 onChange={handleChange}
-                helperText="Please select your currency"
+                sx={{
+                  width:'50%'
+                }}
                 >
-                {currencies.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                    </MenuItem>
-                ))}
+                {
+                  informationTransaction.type === 'Earning'
+                  ?
+                    categories.map((option) => {
+                      if (option.type === 'Earning') {
+                        return (
+                          <MenuItem key={option.id} value={option.name}>
+                          {option.name}
+                          </MenuItem>
+                        )
+                       }
+                    })
+                  : informationTransaction.type === 'Expense' 
+                    ? 
+                    categories.map((option) => {
+                      if (option.type === 'Expense') {
+                        return (
+                          <MenuItem key={option.id} value={option.name}>
+                          {option.name}
+                          </MenuItem>
+                        )
+                       }
+                    })
+                    :null
+                    
+                }
              </TextField>
-
-
               <Button
                 type="submit"
                 fullWidth

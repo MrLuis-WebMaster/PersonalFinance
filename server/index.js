@@ -8,6 +8,7 @@ const app = express();
 const routesCategory = require("./src/Routes/Category");
 const routesUser = require("./src/Routes/User");
 const routeCountries = require("./src/Routes/Countries");
+const routeTransactions = require("./src/Routes/Transactions")
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
@@ -26,11 +27,12 @@ app.use((req, res, next) => {
 app.use('/', routesCategory);
 app.use('/', routesUser);
 app.use('/', routeCountries);
+app.use('/', routeTransactions);
 
 
 const PORT = process.env.PORT || 3001;
 
-Connection.sync({force:true}).then(() => {
+Connection.sync({force:false}).then(() => {
     app.listen(PORT, () => {
       console.log(`Connection database has been correct and listening at ${PORT}`); 
     });

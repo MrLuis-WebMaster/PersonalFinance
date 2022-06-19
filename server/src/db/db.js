@@ -22,18 +22,18 @@ fs.readdirSync(path.join(__dirname, '../Models'))
 modelDefiners.forEach(model => model(sequelize));
 
 
-const {User,Expenses,Earnings,Cointype,Category} = sequelize.models;
+const {User,Expense,Earning,Cointype,Category} = sequelize.models;
 
 User.hasOne(Cointype);
 Cointype.belongsTo(User);
-User.hasMany(Expenses);
-Expenses.belongsTo(User);
-User.hasMany(Earnings);
-Earnings.belongsTo(User);
-Earnings.hasOne(Category);
-Category.belongsTo(Earnings);
-Expenses.hasOne(Category);
-Category.belongsTo(Expenses);
+User.hasMany(Expense);
+Expense.belongsTo(User);
+User.hasMany(Earning);
+Earning.belongsTo(User);
+Earning.hasOne(Category);
+Category.belongsTo(Earning);
+Expense.hasOne(Category);
+Category.belongsTo(Expense);
 
 
 module.exports = {

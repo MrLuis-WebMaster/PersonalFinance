@@ -36,10 +36,12 @@ const categories = [
 
 router.get("/category", async (req,res) => {
     try {
-        const CreateListCategory = categories.map( async ({name,type}) => {
-            return await Category.create({
-                name:name,
-                type:type
+        categories.forEach( async ({name,type})=> {
+            await Category.findOrCreate({
+                where: {
+                    name:name,
+                    type:type
+                }
             })
         })
         const list_category = await Category.findAll();
@@ -47,7 +49,6 @@ router.get("/category", async (req,res) => {
     } catch (error) {
         res.status(400).json({error: error})
     }
-
 })
 
 
