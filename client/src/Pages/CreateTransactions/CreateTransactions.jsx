@@ -5,7 +5,7 @@ import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import { MenuItem } from "@mui/material";
+import { MenuItem, Select } from "@mui/material";
 import { ErrorAlert } from '../../Components/Alert/AlertMessage'
 import Dashboard from "../../Components/Dashboard/Dashboard";
 import { getCategories } from "../../Redux/slices/category/category";
@@ -55,10 +55,24 @@ const CreateTransactions = () => {
     
     if (informationTransaction.type === "Earning") {
       dispatch(sendEarning(informationTransaction, user.id))
+      setinformationTransaction({
+        concept:'',
+        amount:'',
+        date:'',
+        type:'',
+        category:''
+      })
       return
     }
     if (informationTransaction.type === "Expense") {
       dispatch(sendExpense(informationTransaction, user.id))
+      setinformationTransaction({
+        concept:'',
+        amount:'',
+        date:'',
+        type:'',
+        category:''
+      })
       return
     }
     
@@ -97,6 +111,7 @@ const CreateTransactions = () => {
                 name="concept"
                 autoComplete="Concept"
                 autoFocus
+                value={informationTransaction.concept}
                 onChange={handleChange}
               />
               <TextField
@@ -107,6 +122,7 @@ const CreateTransactions = () => {
                 label="Amount"
                 type="number"
                 id="Amount"
+                value={informationTransaction.amount}
                 onChange={handleChange}
               />
               <TextField
@@ -116,13 +132,12 @@ const CreateTransactions = () => {
                 name="date"
                 type="date"
                 id="Date"
+                value={informationTransaction.date}
                 onChange={handleChange}
               />
-              <TextField
-                  id="outlined-select-currency"
-                  select
-                  label="Select"
-                  // value={currency}
+              <Select
+                  id="outlined-select-type"
+                  value={informationTransaction.type ? informationTransaction.type : ''}
                   name="type"
                   onChange={handleChange}
                   sx={{
@@ -136,13 +151,11 @@ const CreateTransactions = () => {
                     Expense
                   </MenuItem>
 
-              </TextField>
+              </Select>
               
-            <TextField
-                id="outlined-select-currency"
-                select
-                label="Select"
-                // value={currency}
+            <Select
+                id="outlined-select-category"
+                value={informationTransaction.category ? informationTransaction.category : ''}
                 name="category"
                 onChange={handleChange}
                 sx={{
@@ -175,7 +188,7 @@ const CreateTransactions = () => {
                     :null
                     
                 }
-             </TextField>
+             </Select>
               <Button
                 type="submit"
                 fullWidth

@@ -6,7 +6,8 @@ import NotFound from "./Pages/NotFound/NotFound"
 import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
 import Footer from "./Components/Footer/Footer"
 import Overview from "./Pages/Overview/Overview";
-import Operations from "./Pages/Operations/Operations";
+import Earnings from "./Pages/Earnings/Earnings";
+import Expenses from "./Pages/Expenses/Expenses";
 import CreateTransactions from "./Pages/CreateTransactions/CreateTransactions";
 
 function App() {
@@ -23,12 +24,12 @@ function App() {
         }/>
         <Route path="/earnings" element={
           <ProtectedRoute>
-            <Operations/>
+            <Earnings/>
           </ProtectedRoute>
         }/>
         <Route path="/expenses" element={
           <ProtectedRoute>
-            <Operations/>
+            <Expenses/>
           </ProtectedRoute>
         }/>
         <Route path="/createTransaction" element={

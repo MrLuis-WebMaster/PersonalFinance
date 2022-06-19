@@ -8,8 +8,8 @@ export const transactionsSlice = createSlice({
         expense:{}
     },
     reducers: {
-        postAddEarning: (state,action) => state.earning = action.payload,
-        postAddExpense: (state,action) => state.earning = action.payload
+        postAddEarning: (state,action) => {state.earning = action.payload},
+        postAddExpense: (state,action) => {state.earning = action.payload}
     }
 })
 

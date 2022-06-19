@@ -34,7 +34,7 @@ const Operations = () => {
                 <Dashboard 
                     Component = {
                         (
-                            <ListOperations/>
+                            <ListOperations user={user} title="Earnings"/>
                         )
                     }
                 />
