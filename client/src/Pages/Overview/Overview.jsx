@@ -11,6 +11,7 @@ import Loading from '../../Components/Loading/Loading';
 import LastTransactions from '../../Components/LastTransactions/LastTransactions';
 import TotalBalance from '../../Components/TotalBalance/TotalBalance';
 import { getUser, resetUser } from '../../Redux/slices/users/users'
+import { lastTransactions } from '../../Redux/slices/transactions/transactions';
 
 const Overview = () => {
     const Dispatch = useDispatch();
@@ -29,7 +30,16 @@ const Overview = () => {
             Dispatch(resetUser())
         }
 
-    },[Dispatch])  
+    },[Dispatch]) 
+
+    const transactions = useSelector(state=>state.transactions.lastTransactions)
+
+    useEffect(()=>{
+        if (user) {
+            Dispatch(lastTransactions(user.id))
+        }
+    },[user])  
+    
 
     if (!user) {
         return <Loading/>
@@ -43,7 +53,7 @@ const Overview = () => {
                                 <h1>Welcome {user.fullName}</h1>
                                 <Grid container spacing={5}>
                                     <Grid item xs={12} md={6}>
-                                        <LastTransactions/>
+                                        <LastTransactions currency={user.currency} transactions={transactions}/>
                                     </Grid>
                                     <Grid item xs={12} md={6}>
                                         <TotalBalance/>

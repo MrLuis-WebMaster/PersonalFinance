@@ -14,31 +14,9 @@ import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
-function createData(name, calories, fat, carbs, protein, price) {
-  return {
-    name,
-    calories,
-    fat,
-    carbs,
-    protein,
-    price,
-    history: [
-      {
-        date: '2020-01-05',
-        customerId: '11091700',
-        amount: 3,
-      },
-      {
-        date: '2020-01-02',
-        customerId: 'Anonymous',
-        amount: 1,
-      },
-    ],
-  };
-}
 
 function Row(props) {
-  const { row } = props;
+  const { row,currency } = props;
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -55,10 +33,16 @@ function Row(props) {
           </IconButton>
         </TableCell>
         <TableCell component="th" scope="row">
-          {row.name}
+          <Typography component="span">
+            { new Intl.NumberFormat().format(row.amount)}        
+          </Typography> 
+          <Typography sx={{fontWeight: 'bold' , marginLeft:'5px'}} component="span">
+             {currency}   
+          </Typography> 
+            
         </TableCell>
-        <TableCell align="right">{row.calories}</TableCell>
-        <TableCell align="right">{row.fat}</TableCell>
+        <TableCell align="right">{row.category}</TableCell>
+        <TableCell align="right">{row.type}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -70,25 +54,17 @@ function Row(props) {
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
+                    <TableCell>Concept</TableCell>
                     <TableCell>Date</TableCell>
-                    <TableCell>Customer</TableCell>
-                    <TableCell align="right">Amount</TableCell>
-                    <TableCell align="right">Total price ($)</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row.history.map((historyRow) => (
-                    <TableRow key={historyRow.date}>
+                    <TableRow>
+                      <TableCell>{row.concept}</TableCell>
                       <TableCell component="th" scope="row">
-                        {historyRow.date}
-                      </TableCell>
-                      <TableCell>{historyRow.customerId}</TableCell>
-                      <TableCell align="right">{historyRow.amount}</TableCell>
-                      <TableCell align="right">
-                        {Math.round(historyRow.amount * row.price * 100) / 100}
+                        {row.date}
                       </TableCell>
                     </TableRow>
-                  ))}
                 </TableBody>
               </Table>
             </Box>
@@ -117,31 +93,38 @@ Row.propTypes = {
   }).isRequired,
 };
 
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0, 3.99),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3, 4.99),
-  createData('Eclair', 262, 16.0, 24, 6.0, 3.79),
-  createData('Cupcake', 305, 3.7, 67, 4.3, 2.5),
-  createData('Gingerbread', 356, 16.0, 49, 3.9, 1.5),
-];
 
-const LastTransactions = () => {
+const LastTransactions = ({transactions,currency}) => {
+  console.log(transactions)
+
+
+  const rows = transactions.map( ({amount,category,type,id,concept,date}) => {
+      return {
+        id,
+        amount,
+        category,
+        type,
+        concept,
+        date
+      }
+  })
+  
   return (
     <>
-      <h2>Last Transactions</h2>
+      <h2>Last Transactions </h2>
       <TableContainer component={Paper}>
         <Table aria-label="collapsible table">
           <TableHead>
             <TableRow>
               <TableCell />
-              <TableCell>Amount</TableCell>
-              <TableCell align="right">Type</TableCell>
-              <TableCell align="right">Category</TableCell>
+              <TableCell sx={{fontWeight: 'bold'}}>Amount</TableCell>
+              <TableCell sx={{fontWeight: 'bold'}} align="right">Category</TableCell>
+              <TableCell sx={{fontWeight: 'bold'}} align="right">Type</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {rows.map((row) => (
-              <Row key={row.name} row={row} />
+              <Row key={row.id} row={row} currency={currency}/>
               ))}
           </TableBody>
         </Table>

@@ -45,4 +45,31 @@ router.post("/addExpense", async ( req, res )=> {
 })
 
 
+router.post("/lastTransactions", async ( req, res )=> {
+    try {
+        const { id } = req.body;
+        if (id) {
+            const Earnings = await Earning.findAll({
+                where:{
+                    UserId:id
+                }
+            })
+            const Expenses = await Expense.findAll({
+                where:{
+                    UserId:id
+                }
+            })
+
+            const totalTransactions = Earnings.concat(Expenses)
+
+            const  orderTransactionsByDate = totalTransactions.map(e=>e).sort( (a,b) => new Date(b.date) - new Date(a.date)).slice(0,10)
+            
+            res.status(201).json(orderTransactionsByDate)
+        }
+    } catch (error) {
+        res.status(400).json({error: error})
+    }
+})
+
+
 module.exports = router;
