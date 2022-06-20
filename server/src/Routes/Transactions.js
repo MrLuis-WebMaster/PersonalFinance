@@ -71,5 +71,29 @@ router.post("/lastTransactions", async ( req, res )=> {
     }
 })
 
+router.post("/allTransactions", async ( req, res )=> {
+    try {
+        const { id } = req.body;
+        if (id) {
+
+            const Earnings = await Earning.findAll({
+                where:{
+                    UserId:id
+                }
+            })
+            const Expenses = await Expense.findAll({
+                where:{
+                    UserId:id
+                }
+            })
+
+            const totalTransactions = Earnings.concat(Expenses)
+            res.status(201).json(totalTransactions)
+        }
+    } catch (error) {
+        res.status(400).json({error: error})
+    }
+})
+
 
 module.exports = router;

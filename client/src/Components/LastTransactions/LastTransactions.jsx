@@ -95,8 +95,6 @@ Row.propTypes = {
 
 
 const LastTransactions = ({transactions,currency}) => {
-  console.log(transactions)
-
 
   const rows = transactions.map( ({amount,category,type,id,concept,date}) => {
       return {
