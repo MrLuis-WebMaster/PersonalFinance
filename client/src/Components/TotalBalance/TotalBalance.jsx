@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
-
+import {Box} from '@mui/material'
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 
 
 const TotalBalance = ({transactions, currency}) => {
   const [month, setMont] = useState(new Date().getMonth()+1)
+  const [monthArray, setMothArray] = useState(["January","February","March","April","May","June","July","August","September","October","November","December"])
 
   let operationEarning;
   let operationExpense;
@@ -32,7 +33,7 @@ const TotalBalance = ({transactions, currency}) => {
           'rgba(255, 99, 132, 1)',
         ],
         borderWidth: 1,
-        hoverOffset: 4
+        hoverOffset: 0      
       },
     ],
     rotation:0
@@ -46,8 +47,13 @@ const TotalBalance = ({transactions, currency}) => {
               <h1>
                   Total Balance : { new Intl.NumberFormat().format(operationEarning-operationExpense) } {currency}
               </h1>
+              <h2>
+                   Month : { monthArray[month-1]}
+              </h2>
           </div>
-          <Pie data={data} />
+          <Box sx={{width:'650px', margin:'0 auto'}}>
+            <Pie data={data} />
+          </Box>
         </>
       )}
     </div>
