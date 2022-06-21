@@ -3,7 +3,7 @@ import "sweetalert2/src/sweetalert2.scss";
 
 export const InfoAlert = Swal.mixin({
   toast: true,
-  position: "bottom-start",
+  position: "bottom-end",
   icon: "success",
   background: "#F9F9F9",
   showConfirmButton: false,

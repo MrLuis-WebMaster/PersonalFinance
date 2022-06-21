@@ -95,5 +95,75 @@ router.post("/allTransactions", async ( req, res )=> {
     }
 })
 
+router.delete("/deleteTransactions", async ( req, res )=> {
+    try {
+        if (req.body.length > 0) {
+            let transaction;
+            req.body.forEach( async ({id,type}) => {
+                if (type === "Earning") {
+                    transaction = await Earning.destroy({
+                        where: {
+                            id
+                        }
+                    })
+                    return;
+                }
+                if (type === "Expense") {
+                    transaction = await Expense.destroy({
+                        where: {
+                            id
+                        }
+                    })
+                    return;
+                }
+            });
+            res.status(200).json(transaction)
+        }
+    } catch (error) {
+        res.status(400).json({error: error})
+    }
+})
+
+router.put("/updateTransaction", async ( req, res )=> {
+    const {id,type,amount,concept,category,date} = req.body
+    try {
+        if ({id,type,amount,concept,category,date}) {
+            if (type === "Earning") {
+                const transaction = await Earning.update({
+                    amount,
+                    date,
+                    concept,
+                    type,
+                    category
+                }, {
+                    where: {
+                        id
+                    }
+                })
+                return res.status(200).json(transaction);
+            }
+            if (type === "Expense") {
+                const transaction = await Expense.update({
+                    amount,
+                    date,
+                    concept,
+                    type,
+                    category
+                }, {
+                    where: {
+                        id
+                    }
+                })
+                return res.status(200).json(transaction);
+            }
+            
+        }
+    } catch (error) {
+        res.status(400).json({error: error})
+    }
+})
+
+
+
 
 module.exports = router;

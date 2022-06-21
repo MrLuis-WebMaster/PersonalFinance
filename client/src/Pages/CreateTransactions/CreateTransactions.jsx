@@ -78,6 +78,7 @@ const CreateTransactions = () => {
     
   };
 
+
   const handleChange = ({target: {name,value}}) => {
     setinformationTransaction({...informationTransaction,[name]:value})
   }
@@ -87,7 +88,7 @@ const CreateTransactions = () => {
       <>
       <Dashboard 
       Component={
-          <Grid container component="main" sx={{ height: '100%' }}>
+      <Grid container component="main" sx={{ height: '100%' }}>
         <Grid item xs={12} sm={8} md={12} elevation={6}  square="true">
           <Box
             sx={{

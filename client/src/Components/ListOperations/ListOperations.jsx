@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
@@ -11,8 +11,7 @@ import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
 import EnhancedTableHead from './ComponentsTable/EnhancedTableHead'
 import EnhancedTableToolbar from './ComponentsTable/EnhancedTableToolbar';
-import createData from './functions/createData';
-
+import transactions from '../../Redux/slices/transactions/transactions';
 
 
 function descendingComparator(a, b, orderBy) {
@@ -31,8 +30,6 @@ function getComparator(order, orderBy) {
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-// This method is created for cross-browser compatibility, if you don't
-// need to support IE11, you can use Array.prototype.sort() directly
 function stableSort(array, comparator) {
   const stabilizedThis = array.map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
@@ -64,29 +61,30 @@ const ListOperations = ({title,user}) => {
   const [orderBy, setOrderBy] = useState('calories');
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
-  const [dense, setDense] = useState(false);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rows, setRows] = useState([])
+
 
   const {Earnings,Expenses, currency} = user;
-  console.log(user)
+
+  useEffect(()=> {
+    if (title === "Earnings") {
+      const array = Earnings.map( ({amount,concept,category,date,type,id}) => {
+        return {concept,amount,type,category,date,id};
+      })
+      setRows(array)
+    }
+  
+    if (title === "Expenses") {
+      const array = Expenses.map( ({amount,concept,category,date,type,id}) => {
+        return {concept,amount,type,category,date,id};
+      })
+      setRows(array)
+    }
+
+  },[Earnings,Expenses])
 
 
-  console.log(Earnings)
-  let rows = [];
-
-  if (title === "Earnings") {
-    rows = Earnings.map( ({amount,concept,category,date,type}) => {
-        return {concept,amount,type,category,date}
-    })
-  }
-
-  if (title === "Expenses") {
-    rows = Expenses.map( ({amount,concept,category,date,type}) => {
-       return {concept,amount,type,category,date}
-    })
-  }
-
-  console.log(rows)
 
 
   const handleRequestSort = (event, property) => {
@@ -97,19 +95,27 @@ const ListOperations = ({title,user}) => {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.name);
+      const newSelecteds = rows.map(({id,type,concept,amount,category,date}) => {
+        return {
+          id,
+          type,
+          concept,
+          category,
+          amount,
+          date
+        }
+      });
       setSelected(newSelecteds);
       return;
     }
     setSelected([]);
   };
 
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
+  const handleClick = (event, id, type, amount, category, date, concept) => {
+    const selectedIndex = selected.map(object => object.id).indexOf(id);
     let newSelected = [];
-
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
+      newSelected = newSelected.concat(selected,{id,type,amount, category, date, concept});
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -120,7 +126,6 @@ const ListOperations = ({title,user}) => {
         selected.slice(selectedIndex + 1),
       );
     }
-
     setSelected(newSelected);
   };
 
@@ -133,25 +138,19 @@ const ListOperations = ({title,user}) => {
     setPage(0);
   };
 
-  const handleChangeDense = (event) => {
-    setDense(event.target.checked);
-  };
+  const isSelected = (id,type) => selected.map(object => object.id).indexOf(id) !== -1;
 
-  const isSelected = (name) => selected.indexOf(name) !== -1;
 
-  // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <EnhancedTableToolbar title={title} numSelected={selected.length} />
+        <EnhancedTableToolbar transactions={selected} title={title} numSelected={selected.length} />
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
             aria-labelledby="tableTitle"
-            size={dense ? 'small' : 'medium'}
           >
             <EnhancedTableHead
               numSelected={selected.length}
@@ -162,22 +161,20 @@ const ListOperations = ({title,user}) => {
               rowCount={rows.length}
             />
             <TableBody>
-              {/* if you don't need to support IE11, you can replace the `stableSort` call with:
-                 rows.slice().sort(getComparator(order, orderBy)) */}
               {stableSort(rows, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
-                  const labelId = `enhanced-table-checkbox-${index}`;
+                  const isItemSelected = isSelected(row.id,row.type);
+                  const labelId = `enhanced-table-checkbox-${row.id}`;
 
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.name)}
+                      onClick={(event) => handleClick(event, row.id, row.type, row.amount, row.category, row.date, row.concept)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row.name}
+                      key={row.id}
                       selected={isItemSelected}
                     >
                       <TableCell padding="checkbox">
@@ -206,9 +203,6 @@ const ListOperations = ({title,user}) => {
                 })}
               {emptyRows > 0 && (
                 <TableRow
-                  style={{
-                    height: (dense ? 33 : 53) * emptyRows,
-                  }}
                 >
                   <TableCell colSpan={6} />
                 </TableRow>
@@ -217,7 +211,7 @@ const ListOperations = ({title,user}) => {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
+          rowsPerPageOptions={[10, 15, 20]}
           component="div"
           count={rows.length}
           rowsPerPage={rowsPerPage}
