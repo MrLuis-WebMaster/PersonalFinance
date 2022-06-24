@@ -11,6 +11,7 @@ import Typography from '@mui/material/Typography';
 import img from "../../assets/img/bg-login.jpg";
 import {resetPassword} from "../../Authentication/LoginWorkFlow";
 import { InfoAlert } from "../../Components/Alert/AlertMessage";
+import Footer from "../../Components/Footer/Footer";
 
 const ResetPassword = () => {
 
@@ -41,7 +42,7 @@ const ResetPassword = () => {
     
     
       return (
-          <Grid container component="main" sx={{ height: '90vh' }}>
+          <Grid container component="main" sx={{ height: '100vh' }}>
             <Grid
               item
               xs={false}
@@ -59,11 +60,12 @@ const ResetPassword = () => {
             <Grid item xs={12} sm={8} md={5} elevation={6} square="true">
               <Box
                 sx={{
-                  my: 8,
                   mx: 4,
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
+                  justifyContent:'center',
+                  height:'70%',
                 }}
               >
                 <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
@@ -93,9 +95,21 @@ const ResetPassword = () => {
                   >
                     Send
                   </Button>
+                   <Link to="/">
+                      Go to back login
+                   </Link>
                   
                 </Box>
               </Box>
+              <Box sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent:'flex-end',
+              height:'30%'
+             }}>
+             <Footer/>
+          </Box>
             </Grid>
           </Grid>
           
