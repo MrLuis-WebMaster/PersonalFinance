@@ -6,6 +6,7 @@ import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
+import PersonIcon from "@mui/icons-material/Person";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
@@ -13,7 +14,6 @@ import { Link } from "react-router-dom";
 import Logout from "@mui/icons-material/Logout";
 import { LogoutSession } from "../../Authentication/LoginWorkFlow";
 import { resetUser } from "../../Redux/slices/users/users";
-
 
 const MenuProfile = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -97,10 +97,9 @@ const MenuProfile = () => {
       >
         <Link to="/profile">
           <MenuItem>
-            <Avatar sx={{ width: 20, height: 20 }}>
-              {" "}
-              {user ? user.fullName[0] : ""}{" "}
-            </Avatar>{" "}
+            <ListItemIcon>
+              <PersonIcon fontSize="small" />
+            </ListItemIcon>
             My account
           </MenuItem>
         </Link>

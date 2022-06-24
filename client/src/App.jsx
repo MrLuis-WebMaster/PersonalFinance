@@ -7,6 +7,7 @@ import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
 import Overview from "./Pages/Overview/Overview";
 import Earnings from "./Pages/Earnings/Earnings";
 import Expenses from "./Pages/Expenses/Expenses";
+import Profile from "./Pages/Profile/Profile";
 import CreateTransactions from "./Pages/CreateTransactions/CreateTransactions";
 
 function App() {
@@ -45,6 +46,14 @@ function App() {
           element={
             <ProtectedRoute>
               <CreateTransactions />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
             </ProtectedRoute>
           }
         />
