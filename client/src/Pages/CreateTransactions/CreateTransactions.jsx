@@ -6,7 +6,7 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { MenuItem, Select } from "@mui/material";
-import { ErrorAlert } from "../../Components/Alert/AlertMessage";
+import { InfoAlert } from "../../Components/Alert/AlertMessage";
 import Dashboard from "../../Components/Dashboard/Dashboard";
 import { getCategories } from "../../Redux/slices/category/category";
 import {
@@ -61,6 +61,9 @@ const CreateTransactions = () => {
         type: "",
         category: "",
       });
+      InfoAlert.fire({
+        title:"Created Sucess"
+      })
       return;
     }
     if (informationTransaction.type === "Expense") {
@@ -72,6 +75,9 @@ const CreateTransactions = () => {
         type: "",
         category: "",
       });
+      InfoAlert.fire({
+        title:"Created Sucess"
+      })
       return;
     }
   };
