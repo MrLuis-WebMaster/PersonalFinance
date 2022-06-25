@@ -8,9 +8,14 @@ const path = require('path');
 
 const config = require('../config/config');
 
-
 const sequelize = new Sequelize(`postgres://${config.DB_USER}:${config.DB_PASSWORD}@${config.HOST}:${config.DB_PORT}/${config.DB_NAME}`, {
-    logging: false
+    logging: false,
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false
+      }
+    }
 });
 
 const basename = path.basename(__filename);
