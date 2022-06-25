@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
 const cors = require("cors");
+const config = require('./src/config/config');
 const {Connection} = require("./src/db/db");
 const app = express();
 const routesCategory = require("./src/Routes/Category");
@@ -30,11 +31,11 @@ app.use('/', routeCountries);
 app.use('/', routeTransactions);
 
 
-const PORT = process.env.PORT || 3001;
+console.log(config.PORT)
 
 Connection.sync({force:false}).then(() => {
-    app.listen(PORT, () => {
-      console.log(`Connection database has been correct and listening at ${PORT}`); 
+    app.listen(config.PORT, config.HOST, () => {
+      console.log(`Connection database has been correct and listening at ${config.HOST} ${config.PORT}`); 
     });
 }).catch((error)=>{
   console.error(error)

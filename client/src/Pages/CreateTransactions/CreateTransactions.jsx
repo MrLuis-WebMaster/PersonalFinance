@@ -162,8 +162,9 @@ const CreateTransactions = () => {
 
                   <Select
                     id="outlined-select-category"
+                    defaultValue="choose"
                     value={
-                      informationTransaction.category
+                      informationTransaction
                         ? informationTransaction.category
                         : ""
                     }
@@ -173,21 +174,23 @@ const CreateTransactions = () => {
                       width: "50%",
                     }}
                   >
-                    {informationTransaction.type === "Earning"
+                    <MenuItem disabled value="choose">Choose category </MenuItem>
+                    
+                    {categories && informationTransaction.type === "Earning"
                       ? categories.map((option) => {
                           if (option.type === "Earning") {
                             return (
-                              <MenuItem key={option.id} value={option.name}>
+                              <MenuItem key={option.id} value={option.name || ""}>
                                 {option.name}
                               </MenuItem>
                             );
                           }
                         })
-                      : informationTransaction.type === "Expense"
+                      : categories && informationTransaction.type === "Expense"
                       ? categories.map((option) => {
                           if (option.type === "Expense") {
                             return (
-                              <MenuItem key={option.id} value={option.name}>
+                              <MenuItem key={option.id} value={option.name || ""}>
                                 {option.name}
                               </MenuItem>
                             );
