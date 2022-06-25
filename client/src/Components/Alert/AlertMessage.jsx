@@ -23,3 +23,10 @@ export const ErrorAlert = Swal.mixin({
   confirmButtonColor: "#000",
 });
 
+export const WarningAlert = Swal.mixin({
+  icon: "warning",
+  iconColor: "#FF2F2B",
+  background: "#F9F9F9",
+  confirmButtonColor: "#000",
+});
+
