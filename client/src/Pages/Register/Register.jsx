@@ -15,6 +15,7 @@ import { ErrorAlert } from "../../Components/Alert/AlertMessage";
 import { sendUser } from "../../Redux/slices/users/users";
 import { SignUp } from "../../Authentication/LoginWorkFlow";
 import { getCountries } from "../../Redux/slices/countries/countries";
+import PigIcon from "../../assets/img/Pig.png"
 import Footer from "../../Components/Footer/Footer";
 
 const Register = () => {
@@ -88,9 +89,11 @@ const Register = () => {
           height: "80%",
         }}
       >
-        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+        {/* <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
           <LockOutlinedIcon />
-        </Avatar>
+        </Avatar> */}
+                  <img src={PigIcon}></img>
+
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>

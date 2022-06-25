@@ -18,6 +18,8 @@ import { ErrorAlert } from "../../Components/Alert/AlertMessage";
 import { LoginUser, LoginWithGoogle } from "../../Authentication/LoginWorkFlow";
 import { resetUser } from "../../Redux/slices/users/users";
 import Footer from "../../Components/Footer/Footer";
+import PigIcon from "../../assets/img/Pig.png"
+import { Divider } from "@mui/material";
 
 const Login = () => {
   const [userCredentials, setUserCredentials] = useState({
@@ -117,9 +119,10 @@ const Login = () => {
             height: "70%",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+          {/* <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
             <LockOutlinedIcon />
-          </Avatar>
+          </Avatar> */}
+          <img src={PigIcon}></img>
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
@@ -169,6 +172,7 @@ const Login = () => {
                 <Link to="/register">Don't have an account? Sign Up</Link>
               </Grid>
             </Grid>
+            <Divider sx={{ marginTop: "2rem" }}></Divider>
             <Grid container justifyContent="center" spacing={2}>
               <Grid item sx={{ marginTop: "2rem" }}>
                 <Button

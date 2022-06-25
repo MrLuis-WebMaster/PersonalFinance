@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useState } from "react";
+import Logo from '../../assets/img/Logo.svg'
 import { styled, useTheme } from "@mui/material/styles";
 import { Link } from "react-router-dom";
 import Box from "@mui/material/Box";
@@ -116,9 +117,10 @@ const Dashboard = ({ Component }) => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
+          {/* <Typography variant="h6" noWrap component="div">
             Dashboard
-          </Typography>
+          </Typography> */}
+          <img src={Logo} alt="" />
           <MenuProfile />
         </Toolbar>
       </AppBar>

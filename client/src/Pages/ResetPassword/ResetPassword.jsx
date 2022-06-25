@@ -8,7 +8,7 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
-import img from "../../assets/img/bg-login.jpg";
+import img from "../../assets/img/bg-register.jpg";
 import {resetPassword} from "../../Authentication/LoginWorkFlow";
 import { InfoAlert } from "../../Components/Alert/AlertMessage";
 import Footer from "../../Components/Footer/Footer";
