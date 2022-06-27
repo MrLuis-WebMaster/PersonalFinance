@@ -29,7 +29,7 @@ export const {  postAddEarning, postAddExpense, getLastTransactions, getAllTrans
 export const sendEarning = ( transaction,id ) =>  async dispatch => {
     if (transaction) {
         try {
-            const response = await axios.post("http://localhost:3001/addIncome",{transaction,id})
+            const response = await axios.post("/api/addIncome",{transaction,id})
             dispatch(postAddEarning(response.data))
 
         } catch (error) {
@@ -41,7 +41,7 @@ export const sendEarning = ( transaction,id ) =>  async dispatch => {
 export const sendExpense = ( transaction,id ) =>  async dispatch => {
     if ( transaction ) {
         try {
-            const response = await axios.post("http://localhost:3001/addExpense",{transaction,id})
+            const response = await axios.post("/api/addExpense",{transaction,id})
             dispatch(postAddExpense(response.data))
         } catch (error) {
             console.log(error)
@@ -52,7 +52,7 @@ export const sendExpense = ( transaction,id ) =>  async dispatch => {
 export const lastTransactions = ( id ) =>  async dispatch => {
     if ( id ) {
         try {
-            const response = await axios.post("http://localhost:3001/lastTransactions",{id})
+            const response = await axios.post("/api/lastTransactions",{id})
             dispatch(getLastTransactions(response.data))
         } catch (error) {
             console.log(error)
@@ -63,7 +63,7 @@ export const lastTransactions = ( id ) =>  async dispatch => {
 export const allTransactions = ( id ) =>  async dispatch => {
     if ( id ) {
         try {
-            const response = await axios.post("http://localhost:3001/allTransactions",{id})
+            const response = await axios.post("/api/allTransactions",{id})
             dispatch(getAllTransactions(response.data))
         } catch (error) {
             console.log(error)
@@ -74,7 +74,7 @@ export const allTransactions = ( id ) =>  async dispatch => {
 export const deleteTransactions = ( transaction ) =>  async dispatch => {
     if ( transaction ) {
         try {
-            const response = await axios.delete("http://localhost:3001/deleteTransactions",{data:transaction})
+            const response = await axios.delete("/api/deleteTransactions",{data:transaction})
             dispatch(sendDeleteTransaction(response.data))
         } catch (error) {
             console.log(error)
@@ -85,7 +85,7 @@ export const deleteTransactions = ( transaction ) =>  async dispatch => {
 export const sendUpdateEarning = ( transaction ) =>  async dispatch => {
     if (transaction) {
         try {
-            const response = await axios.put("http://localhost:3001/updateTransaction",transaction)
+            const response = await axios.put("/api/updateTransaction",transaction)
             
             console.log(response.data)
 
@@ -100,7 +100,7 @@ export const sendUpdateEarning = ( transaction ) =>  async dispatch => {
 export const sendUpdateExpense = ( transaction ) =>  async dispatch => {
     if ( transaction ) {
         try {
-            const response = await axios.put("http://localhost:3001/updateTransaction",transaction)
+            const response = await axios.put("/api/updateTransaction",transaction)
             dispatch(updateAddExpense(response.data))
         } catch (error) {
             console.log(error)
