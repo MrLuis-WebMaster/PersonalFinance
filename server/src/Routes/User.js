@@ -1,5 +1,6 @@
 const { Router } = require('express')
 const axios = require('axios');
+const config = require("../config/config")
 const { User, Earning, Expense } = require("../db/db");
 
 const router = Router();
@@ -8,7 +9,7 @@ router.post("/user", async ( req, res)=> {
     const {fullName,email,country} = req.body;
     try {
         if (fullName && email && country) {
-            const fetchCountries = await axios.get("http://localhost:3001/countries");
+            const fetchCountries = await axios.get(`${config.URL}/countries`);
             const {currency} = fetchCountries.data.AllCountries.find( e => e.name === country )
             const [user, created] = await User.findOrCreate({
                where: {
@@ -22,6 +23,7 @@ router.post("/user", async ( req, res)=> {
                },
             });
             if (created) {
+                console.log(created)
                 res.status(200).json({Name:fullName, Email:email})
             } else {
                 res.status(200).json({response:"User already exists"})

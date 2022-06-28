@@ -20,7 +20,7 @@ export default countriesSlice.reducer;
 
 export const getCountries = () => async (dispatch) => {
     try {
-        const response = await axios.get("http://localhost:3001/countries");
+        const response = await axios.get("/api/countries");
         dispatch(getcountriesInfo(response.data))
     } catch (error) {
         console.log(error)

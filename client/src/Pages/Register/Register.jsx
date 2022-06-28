@@ -19,6 +19,7 @@ import PigIcon from "../../assets/img/Pig.png"
 import Footer from "../../Components/Footer/Footer";
 
 const Register = () => {
+  
   const [userCredentials, setUserCredentials] = useState({
     fullName: "",
     email: "",
