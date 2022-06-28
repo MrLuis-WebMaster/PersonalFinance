@@ -20,7 +20,7 @@ export default categoriesSlice.reducer;
 
 export const getCategories = () => async (dispatch) => {
     try {
-        const response = await axios.get("http://localhost:3001/category");
+        const response = await axios.get("/api/category");
         dispatch(getCategoriesInfo(response.data))
     } catch (error) {
         console.log(error)
