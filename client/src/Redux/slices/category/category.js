@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import axios from "axios"
-
+import { config } from '../../../config/config'
 
 export const categoriesSlice = createSlice({
   name: 'categories',
@@ -20,7 +20,7 @@ export default categoriesSlice.reducer;
 
 export const getCategories = () => async (dispatch) => {
     try {
-        const response = await axios.get("/api/category");
+        const response = await axios.get(`${config.ENDPOINT}/category`);
         dispatch(getCategoriesInfo(response.data))
     } catch (error) {
         console.log(error)

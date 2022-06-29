@@ -18,6 +18,7 @@ import { getCountries } from "../../Redux/slices/countries/countries";
 import PigIcon from "../../assets/img/Pig.png"
 import Footer from "../../Components/Footer/Footer";
 
+
 const Register = () => {
   
   const [userCredentials, setUserCredentials] = useState({
@@ -26,6 +27,8 @@ const Register = () => {
     country: "",
     password: "",
   });
+
+  
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
