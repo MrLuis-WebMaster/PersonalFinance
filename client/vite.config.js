@@ -26,7 +26,6 @@ export default ({ mode }) => {
   console.log(process.env.VITE_ENDPOINT)
   return defineConfig({
     plugins: [react()],
-    base:'/PersonalFinance/',
     server: {
       host:true,
       proxy: {
