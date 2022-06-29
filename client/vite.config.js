@@ -20,10 +20,6 @@ import {config} from './src/config/config'
 
 export default ({ mode }) => {
   process.env = {...process.env, ...loadEnv(mode, process.cwd())};
-
-  // import.meta.env.VITE_NAME available here with: process.env.VITE_NAME
-  // import.meta.env.VITE_PORT available here with: process.env.VITE_PORT
-  console.log(process.env.VITE_ENDPOINT)
   return defineConfig({
     plugins: [react()],
     server: {
