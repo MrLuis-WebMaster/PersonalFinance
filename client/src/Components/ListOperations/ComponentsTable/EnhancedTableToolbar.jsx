@@ -86,7 +86,7 @@ const EnhancedTableToolbar = (props) => {
     if (informationTransaction.type === "Expense") {
       await dispatch(sendUpdateExpense(informationTransaction));
       await InfoAlert.fire({
-        title: "Delete Succes",
+        title: "Update Succes",
         icon: "info",
       });
       window.location.reload(false);
