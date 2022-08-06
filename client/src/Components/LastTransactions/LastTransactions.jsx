@@ -107,7 +107,7 @@ const LastTransactions = ({ transactions, currency }) => {
     <>
       <h2>Last Transactions </h2>
       <TableContainer component={Paper}>
-        <Table aria-label="collapsible table">
+        <Table sx={{ minWidth: 450 }} aria-label="collapsible table">
           <TableHead>
             <TableRow>
               <TableCell />
