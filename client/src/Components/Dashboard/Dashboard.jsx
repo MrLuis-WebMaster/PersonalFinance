@@ -23,6 +23,7 @@ import DataUsageIcon from "@mui/icons-material/DataUsage";
 import AnalyticsIcon from "@mui/icons-material/Analytics";
 import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
 import CreateIcon from "@mui/icons-material/Create";
+import MenuResponsive from '../MenuResponsive/MenuResponsive'
 
 const drawerWidth = 240;
 
@@ -101,8 +102,10 @@ const Dashboard = ({ Component }) => {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+  const container = window !== undefined ? () => window().document.body : undefined;
+
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box>
       <AppBar position="fixed" open={open}>
         <Toolbar sx={{ justifyContent: "space-between" }}>
           <IconButton
@@ -111,6 +114,7 @@ const Dashboard = ({ Component }) => {
             onClick={handleDrawerOpen}
             edge="start"
             sx={{
+              display:{xs:'none',sm:'block'},
               marginRight: 5,
               ...(open && { display: "none" }),
             }}
@@ -124,7 +128,11 @@ const Dashboard = ({ Component }) => {
           <MenuProfile />
         </Toolbar>
       </AppBar>
-      <Drawer variant="permanent" open={open}>
+      <Drawer 
+        variant="permanent" 
+        open={open}
+        sx={{ display:{xs:'none', sm:'block'}}}
+        >
         <DrawerHeader sx={{justifyContent:"space-between"}}>
           Menu
           <IconButton onClick={handleDrawerClose}>
@@ -243,6 +251,7 @@ const Dashboard = ({ Component }) => {
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
+        <MenuResponsive/>
         {Component}
       </Box>
     </Box>
@@ -250,3 +259,4 @@ const Dashboard = ({ Component }) => {
 };
 
 export default Dashboard;
+ 

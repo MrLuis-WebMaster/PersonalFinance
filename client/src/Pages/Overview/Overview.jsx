@@ -13,10 +13,15 @@ import {
   lastTransactions,
 } from "../../Redux/slices/transactions/transactions";
 
+import {useCurrentWidth} from '../../Hooks/userGetWidth'
+
 const Overview = () => {
   const Dispatch = useDispatch();
   const auth = getAuth();
   const user = useSelector((state) => state.users.infoUser.userInfo);
+  let width = useCurrentWidth();
+
+  console.log(width)
 
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
