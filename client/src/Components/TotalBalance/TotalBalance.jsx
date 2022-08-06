@@ -65,8 +65,8 @@ const TotalBalance = ({ transactions, currency }) => {
             </h1>
             <h2>Month : {monthArray[month - 1]}</h2>
           </div>
-          <Box sx={{ width: "650px", margin: "0 auto" }}>
-            <Pie data={data} />
+          <Box sx={{ display:"flex", width:{xs:'300px',sm:'400px'}, margin: "0 auto" }}>
+            <Pie updateMode="resize" data={data} redraw={true}/>
           </Box>
         </>
       )}
