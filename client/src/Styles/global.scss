@@ -1,8 +1,23 @@
 a {
-    text-decoration: none;
-    color: #000;
+  text-decoration: none;
+  color: #000;
+}
+ul {
+  max-height: 400px;
 }
 
-ul {
-    max-height: 400px;
+::-webkit-scrollbar {
+  @media screen and (min-width:576px) {
+    height: 6px;  
+    width: 6px;
+    &-track {
+      background: #f1f1f1;
+    }
+    &-thumb {
+      background: #1AACF0;
+      &:hover {
+          background: rgba(26, 172, 240, .6);
+      }
+    }
+  }
 }

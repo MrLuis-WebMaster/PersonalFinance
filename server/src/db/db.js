@@ -1,22 +1,24 @@
 const { Sequelize } = require('sequelize');
 const fs = require('fs');
 const path = require('path');
-// require('dotenv').config();
-// const {
-//   DB_USER, DB_PASSWORD, DB_HOST,DB_NAME
-// } = process.env;
-
 const config = require('../config/config');
+let sequelize;
 
-const sequelize = new Sequelize(`postgres://${config.DB_USER}:${config.DB_PASSWORD}@${config.HOST}:${config.DB_PORT}/${config.DB_NAME}`, {
+if (config.HOST === "localhost") {
+  sequelize = new Sequelize(`postgres://${config.DB_USER}:${config.DB_PASSWORD}@${config.HOST}:${config.DB_PORT}/${config.DB_NAME}`, {
     logging: false,
-    // dialectOptions: {
-    //   ssl: {
-    //     require: true,
-    //     rejectUnauthorized: false
-    //   }
-    // }
-});
+  });
+} else {
+  sequelize = new Sequelize(`postgres://${config.DB_USER}:${config.DB_PASSWORD}@${config.HOST}:${config.DB_PORT}/${config.DB_NAME}`, {
+    logging: false,
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false
+      }
+    }
+  });
+}
 
 const basename = path.basename(__filename);
 const modelDefiners = [];

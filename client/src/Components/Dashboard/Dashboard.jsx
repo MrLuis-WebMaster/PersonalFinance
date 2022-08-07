@@ -93,7 +93,7 @@ const Drawer = styled(MuiDrawer, {
 
 const Dashboard = ({ Component }) => {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -105,7 +105,7 @@ const Dashboard = ({ Component }) => {
   const container = window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box>
+    <Box sx={{display:{xs:'block',sm:'flex'}}}>
       <AppBar position="fixed" open={open}>
         <Toolbar sx={{ justifyContent: "space-between" }}>
           <IconButton
@@ -121,9 +121,6 @@ const Dashboard = ({ Component }) => {
           >
             <MenuIcon />
           </IconButton>
-          {/* <Typography variant="h6" noWrap component="div">
-            Dashboard
-          </Typography> */}
           <img src={Logo} alt="" />
           <MenuProfile />
         </Toolbar>
@@ -195,7 +192,6 @@ const Dashboard = ({ Component }) => {
               </ListItemButton>
             </ListItem>
           </Link>
-
           <Link to="/expenses">
             <ListItem>
               <ListItemButton
@@ -221,7 +217,6 @@ const Dashboard = ({ Component }) => {
               </ListItemButton>
             </ListItem>
           </Link>
-
           <Link to="/createTransaction">
             <ListItem>
               <ListItemButton

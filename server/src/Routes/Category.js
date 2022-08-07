@@ -9,6 +9,22 @@ const categories = [
         type: "Earning"
     },
     {
+        name: "Sales",
+        type: "Earning"
+    },
+    {
+        name: "Awards",
+        type: "Earning"
+    },
+    {
+        name: "Gifts",
+        type: "Earning"
+    },
+    {
+        name: "Saving",
+        type: "Earning"
+    },
+    {
         name: "Home",
         type: "Expense"
     },
