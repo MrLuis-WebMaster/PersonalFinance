@@ -24,9 +24,18 @@ export const ErrorAlert = Swal.mixin({
 });
 
 export const WarningAlert = Swal.mixin({
+  toast: true,
+  position: "bottom-end",
   icon: "warning",
   iconColor: "#FF2F2B",
   background: "#F9F9F9",
   confirmButtonColor: "#000",
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener("mouseenter", Swal.stopTimer);
+    toast.addEventListener("mouseleave", Swal.resumeTimer);
+  },
 });
 

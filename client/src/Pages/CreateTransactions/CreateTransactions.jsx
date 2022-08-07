@@ -5,8 +5,8 @@ import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import { MenuItem, Select } from "@mui/material";
-import { InfoAlert } from "../../Components/Alert/AlertMessage";
+import { MenuItem, Select, FormControl, InputLabel } from "@mui/material";
+import { WarningAlert, InfoAlert } from "../../Components/Alert/AlertMessage";
 import Dashboard from "../../Components/Dashboard/Dashboard";
 import { getCategories } from "../../Redux/slices/category/category";
 import {
@@ -24,10 +24,8 @@ const CreateTransactions = () => {
   }, []);
 
   const categories = useSelector(({ categories }) => categories.categories);
-
   const auth = getAuth();
   const user = useSelector((state) => state.users.infoUser.userInfo);
-  console.log(user);
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
@@ -51,8 +49,19 @@ const CreateTransactions = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    const { amount, concept, date, type, category } = informationTransaction;
+    for (const property in informationTransaction) {
+      if (!informationTransaction[property]) {
+        WarningAlert.fire({
+          title: `Required field ${property}`,
+        });
+        break;
+      }
+    }
 
-    if (informationTransaction.type === "Earning") {
+    if (!amount || !concept || !date || !type || !category) return;
+
+    if (type === "Earning" && category) {
       dispatch(sendEarning(informationTransaction, user.id));
       setinformationTransaction({
         concept: "",
@@ -62,11 +71,11 @@ const CreateTransactions = () => {
         category: "",
       });
       InfoAlert.fire({
-        title:"Created Sucess"
-      })
+        title: "Created Sucess",
+      });
       return;
     }
-    if (informationTransaction.type === "Expense") {
+    if (type === "Expense" && category) {
       dispatch(sendExpense(informationTransaction, user.id));
       setinformationTransaction({
         concept: "",
@@ -76,8 +85,8 @@ const CreateTransactions = () => {
         category: "",
       });
       InfoAlert.fire({
-        title:"Created Sucess"
-      })
+        title: "Created Sucess",
+      });
       return;
     }
   };
@@ -119,6 +128,9 @@ const CreateTransactions = () => {
                     name="concept"
                     autoComplete="Concept"
                     autoFocus
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
                     value={informationTransaction.concept}
                     onChange={handleChange}
                   />
@@ -130,6 +142,9 @@ const CreateTransactions = () => {
                     label="Amount"
                     type="number"
                     id="Amount"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
                     value={informationTransaction.amount}
                     onChange={handleChange}
                   />
@@ -137,67 +152,83 @@ const CreateTransactions = () => {
                     margin="normal"
                     required
                     fullWidth
+                    label="Date"
                     name="date"
                     type="date"
                     id="Date"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
                     value={informationTransaction.date}
                     onChange={handleChange}
                   />
-                  <Select
-                    id="outlined-select-type"
-                    value={
-                      informationTransaction.type
-                        ? informationTransaction.type
-                        : ""
-                    }
-                    name="type"
-                    onChange={handleChange}
-                    sx={{
-                      width: "50%",
-                    }}
-                  >
-                    <MenuItem value="Earning">Earning</MenuItem>
-                    <MenuItem value="Expense">Expense</MenuItem>
-                  </Select>
+                  <FormControl fullWidth required sx={{ marginTop: "20px" }}>
+                    <InputLabel>Transaction</InputLabel>
+                    <Select
+                      id="outlined-select-type"
+                      value={
+                        informationTransaction.type
+                          ? informationTransaction.type
+                          : ""
+                      }
+                      label="Transaction"
+                      fullWidth
+                      name="type"
+                      onChange={handleChange}
+                    >
+                      <MenuItem value="Earning">Earning</MenuItem>
+                      <MenuItem value="Expense">Expense</MenuItem>
+                    </Select>
+                  </FormControl>
+                  <FormControl fullWidth required sx={{ marginTop: "20px" }}>
+                    <InputLabel>Category</InputLabel>
+                    <Select
+                      id="outlined-select-category"
+                      defaultValue="choose"
+                      value={
+                        informationTransaction
+                          ? informationTransaction.category
+                          : ""
+                      }
+                      label="Category"
+                      name="category"
+                      onChange={handleChange}
+                      fullWidth
+                    >
+                      <MenuItem disabled value="choose">
+                        Choose category{" "}
+                      </MenuItem>
 
-                  <Select
-                    id="outlined-select-category"
-                    defaultValue="choose"
-                    value={
-                      informationTransaction
-                        ? informationTransaction.category
-                        : ""
-                    }
-                    name="category"
-                    onChange={handleChange}
-                    sx={{
-                      width: "50%",
-                    }}
-                  >
-                    <MenuItem disabled value="choose">Choose category </MenuItem>
-                    
-                    {categories && informationTransaction.type === "Earning"
-                      ? categories.map((option) => {
+                      {categories && informationTransaction.type === "Earning"
+                        ? categories.map((option) => {
                           if (option.type === "Earning") {
                             return (
-                              <MenuItem key={option.id} value={option.name || ""}>
+                              <MenuItem
+                                key={option.id}
+                                value={option.name || ""}
+                              >
                                 {option.name}
                               </MenuItem>
                             );
                           }
                         })
-                      : categories && informationTransaction.type === "Expense"
-                      ? categories.map((option) => {
-                          if (option.type === "Expense") {
-                            return (
-                              <MenuItem key={option.id} value={option.name || ""}>
-                                {option.name}
-                              </MenuItem>
-                            );
-                          }
-                        })
-                      : null}
-                  </Select>
+                        : categories &&
+                          informationTransaction.type === "Expense"
+                          ? categories.map((option) => {
+                            if (option.type === "Expense") {
+                              return (
+                                <MenuItem
+                                  key={option.id}
+                                  value={option.name || ""}
+                                >
+                                  {option.name}
+                                </MenuItem>
+                              );
+                            }
+                          })
+                          : null}
+                    </Select>
+                  </FormControl>
                   <Button
                     type="submit"
                     fullWidth
