@@ -116,7 +116,7 @@ const Login = () => {
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-            height: "70%",
+            height: "90%",
           }}
         >
           {/* <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
@@ -192,7 +192,7 @@ const Login = () => {
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "flex-end",
-            height: "30%",
+            height: "10%",
           }}
         >
           <Footer />
