@@ -2,18 +2,13 @@ import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 //MUI
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
-import img from "../../assets/img/bg-login.jpg";
 import GoogleIcon from "@mui/icons-material/Google";
-import FacebookIcon from "@mui/icons-material/Facebook";
 import { ErrorAlert } from "../../Components/Alert/AlertMessage";
 import { LoginUser, LoginWithGoogle } from "../../Authentication/LoginWorkFlow";
 import { resetUser } from "../../Redux/slices/users/users";
@@ -119,9 +114,6 @@ const Login = () => {
             height: "90%",
           }}
         >
-          {/* <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar> */}
           <img src={PigIcon}></img>
           <Typography component="h1" variant="h5">
             Sign in
