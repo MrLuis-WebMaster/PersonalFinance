@@ -1,20 +1,17 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-//MUI
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import GoogleIcon from "@mui/icons-material/Google";
+import img from "../../assets/img/bg-login.jpg";
 import { ErrorAlert } from "../../Components/Alert/AlertMessage";
-import { LoginUser, LoginWithGoogle } from "../../Authentication/LoginWorkFlow";
+import { LoginUser } from "../../Authentication/LoginWorkFlow";
 import { resetUser } from "../../Redux/slices/users/users";
 import Footer from "../../Components/Footer/Footer";
-import PigIcon from "../../assets/img/Pig.png"
-import { Divider } from "@mui/material";
+import PigIcon from "../../assets/img/Pig.png";
 
 const Login = () => {
   const [userCredentials, setUserCredentials] = useState({
@@ -38,9 +35,9 @@ const Login = () => {
             icon: "error",
           });
         }
-        if (error.code === "auth/wrong-password") {
+        if (error.code === "auth/invalid-email") {
           ErrorAlert.fire({
-            title: "Wrong-password",
+            title: "Email is required",
             icon: "error",
           });
         }
@@ -70,16 +67,6 @@ const Login = () => {
   useEffect(() => {
     Dispatch(resetUser());
   }, []);
-
-  const handleLoginGoogle = () => {
-    LoginWithGoogle()
-      .then(() => {
-        navigate("/dashboard");
-      })
-      .cacth((error) => {
-        console.log(error);
-      });
-  };
 
   const handleChange = ({ target: { name, value } }) => {
     setUserCredentials({ ...userCredentials, [name]: value });
@@ -111,7 +98,7 @@ const Login = () => {
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-            height: "90%",
+            height: "70%",
           }}
         >
           <img src={PigIcon}></img>
@@ -164,18 +151,6 @@ const Login = () => {
                 <Link to="/register">Don't have an account? Sign Up</Link>
               </Grid>
             </Grid>
-            <Divider sx={{ marginTop: "2rem" }}></Divider>
-            <Grid container justifyContent="center" spacing={2}>
-              <Grid item sx={{ marginTop: "2rem" }}>
-                <Button
-                  sx={{ display: "flex", gap: "1rem" }}
-                  onClick={handleLoginGoogle}
-                >
-                  <GoogleIcon />
-                  Sign in with Google
-                </Button>
-              </Grid>
-            </Grid>
           </Box>
         </Box>
         <Box
@@ -184,7 +159,7 @@ const Login = () => {
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "flex-end",
-            height: "10%",
+            height: "30%",
           }}
         >
           <Footer />
