@@ -1,9 +1,13 @@
 import React from "react";
 import { Box, Typography, Button } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import PigDead from "../../assets/img/Pig-dead.png"
 
 const NotFound = () => {
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate(-1)
+  }
   return (
     <>
       <Box
@@ -15,7 +19,7 @@ const NotFound = () => {
           alignItems: "center",
         }}
       >
-        <img src={PigDead} alt="" />  
+        <img src={PigDead} alt="Pig dead" />  
         <Typography variant="h1" component="h1">
           404
         </Typography>
@@ -23,8 +27,8 @@ const NotFound = () => {
         <Typography component="p">
           THAT PAGE DOESN'T OR IS UNAVAILABLE
         </Typography>
-        <Button variant="contained" sx={{ mt: 3, mb: 2, color:"white"}}>
-          <Link style={{color:"#fff"}} to="/">Go Back to Home</Link>
+        <Button onClick={handleClick} variant="contained" sx={{ mt: 3, mb: 2, color:"white"}}>
+            Go Back
         </Button>
       </Box>
     </>

@@ -1,25 +1,17 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-//MUI
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import img from "../../assets/img/bg-login.jpg";
-import GoogleIcon from "@mui/icons-material/Google";
-import FacebookIcon from "@mui/icons-material/Facebook";
 import { ErrorAlert } from "../../Components/Alert/AlertMessage";
-import { LoginUser, LoginWithGoogle } from "../../Authentication/LoginWorkFlow";
+import { LoginUser } from "../../Authentication/LoginWorkFlow";
 import { resetUser } from "../../Redux/slices/users/users";
 import Footer from "../../Components/Footer/Footer";
-import PigIcon from "../../assets/img/Pig.png"
-import { Divider } from "@mui/material";
+import PigIcon from "../../assets/img/Pig.png";
 
 const Login = () => {
   const [userCredentials, setUserCredentials] = useState({
@@ -43,9 +35,9 @@ const Login = () => {
             icon: "error",
           });
         }
-        if (error.code === "auth/wrong-password") {
+        if (error.code === "auth/invalid-email") {
           ErrorAlert.fire({
-            title: "Wrong-password",
+            title: "Email is required",
             icon: "error",
           });
         }
@@ -75,16 +67,6 @@ const Login = () => {
   useEffect(() => {
     Dispatch(resetUser());
   }, []);
-
-  const handleLoginGoogle = () => {
-    LoginWithGoogle()
-      .then(() => {
-        navigate("/dashboard");
-      })
-      .cacth((error) => {
-        console.log(error);
-      });
-  };
 
   const handleChange = ({ target: { name, value } }) => {
     setUserCredentials({ ...userCredentials, [name]: value });
@@ -119,9 +101,6 @@ const Login = () => {
             height: "70%",
           }}
         >
-          {/* <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar> */}
           <img src={PigIcon}></img>
           <Typography component="h1" variant="h5">
             Sign in
@@ -170,18 +149,6 @@ const Login = () => {
               </Grid>
               <Grid item xs={12} sm={6}>
                 <Link to="/register">Don't have an account? Sign Up</Link>
-              </Grid>
-            </Grid>
-            <Divider sx={{ marginTop: "2rem" }}></Divider>
-            <Grid container justifyContent="center" spacing={2}>
-              <Grid item sx={{ marginTop: "2rem" }}>
-                <Button
-                  sx={{ display: "flex", gap: "1rem" }}
-                  onClick={handleLoginGoogle}
-                >
-                  <GoogleIcon />
-                  Sign in with Google
-                </Button>
               </Grid>
             </Grid>
           </Box>

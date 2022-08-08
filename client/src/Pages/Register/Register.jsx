@@ -1,26 +1,21 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-//MUI
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { InputLabel, Select, MenuItem } from "@mui/material";
+import { InputLabel, Select, MenuItem, FormControl } from "@mui/material";
 import { ErrorAlert } from "../../Components/Alert/AlertMessage";
 import { sendUser } from "../../Redux/slices/users/users";
 import { SignUp } from "../../Authentication/LoginWorkFlow";
 import { getCountries } from "../../Redux/slices/countries/countries";
-import PigIcon from "../../assets/img/Pig.png"
+import PigIcon from "../../assets/img/Pig.png";
 import Footer from "../../Components/Footer/Footer";
 
-
 const Register = () => {
-  
   const [userCredentials, setUserCredentials] = useState({
     fullName: "",
     email: "",
@@ -28,11 +23,8 @@ const Register = () => {
     password: "",
   });
 
-  
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector((state) => state.users.user);
 
   const fecthPostPromise = async (userCredentials) => {
     try {
@@ -42,9 +34,17 @@ const Register = () => {
       ]);
       navigate("/overview");
     } catch (error) {
+      console.log(error.code);
       if (error.code === "auth/email-already-in-use") {
         ErrorAlert.fire({
           title: "Email already in use",
+          icon: "error",
+        });
+      }
+
+      if (error.code === "auth/invalid-email") {
+        ErrorAlert.fire({
+          title: "Email requerid",
           icon: "error",
         });
       }
@@ -67,6 +67,14 @@ const Register = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    const { fullName, email, country, password } = userCredentials;
+    if (!fullName || !email || !country || !password) {
+      ErrorAlert.fire({
+        title: "All fields are required",
+        icon: "error",
+      });
+      return;
+    }
     fecthPostPromise(userCredentials);
   };
 
@@ -93,11 +101,7 @@ const Register = () => {
           height: "80%",
         }}
       >
-        {/* <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-          <LockOutlinedIcon />
-        </Avatar> */}
-                  <img src={PigIcon}></img>
-
+        <img src={PigIcon}></img>
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
@@ -117,23 +121,25 @@ const Register = () => {
             </Grid>
 
             <Grid item xs={12}>
-              <InputLabel id="country">Country</InputLabel>
-              <Select
-                label="Country"
-                name="country"
-                labelId="country"
-                id="country"
-                onChange={handleChange}
-                sx={{ width: "100%" }}
-              >
-                {countries
-                  ? countries.map(({ name }) => (
-                      <MenuItem key={name} value={name}>
-                        {name}
-                      </MenuItem>
-                    ))
-                  : null}
-              </Select>
+              <FormControl fullWidth required>
+                <InputLabel id="country">Country</InputLabel>
+                <Select
+                  label="Country"
+                  name="country"
+                  labelId="country"
+                  id="country"
+                  onChange={handleChange}
+                  sx={{ width: "100%" }}
+                >
+                  {countries
+                    ? countries.map(({ name }) => (
+                        <MenuItem key={name} value={name}>
+                          {name}
+                        </MenuItem>
+                      ))
+                    : null}
+                </Select>
+              </FormControl>
             </Grid>
 
             <Grid item xs={12}>
