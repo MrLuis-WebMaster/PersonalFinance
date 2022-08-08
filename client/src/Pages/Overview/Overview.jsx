@@ -1,41 +1,23 @@
 import React from "react";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { Grid } from "@mui/material";
 import Dashboard from "../../Components/Dashboard/Dashboard";
 import Loading from "../../Components/Loading/Loading";
 import LastTransactions from "../../Components/LastTransactions/LastTransactions";
 import TotalBalance from "../../Components/TotalBalance/TotalBalance";
-import { getUser, resetUser } from "../../Redux/slices/users/users";
+import Typography from "@mui/material/Typography";
 import {
   allTransactions,
   lastTransactions,
 } from "../../Redux/slices/transactions/transactions";
 
-import {useCurrentWidth} from '../../Hooks/userGetWidth'
+import useUser from "../../Hooks/useGetUser";
+
 
 const Overview = () => {
   const Dispatch = useDispatch();
-  const auth = getAuth();
-  const user = useSelector((state) => state.users.infoUser.userInfo);
-  let width = useCurrentWidth();
-
-  console.log(width)
-
-  useEffect(() => {
-    onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser) {
-        Dispatch(getUser(currentUser));
-      } else {
-        Dispatch(resetUser());
-      }
-    });
-    return () => {
-      Dispatch(resetUser());
-    };
-  }, [Dispatch]);
-
+  const user = useUser();
   const transactions = useSelector(
     (state) => state.transactions.lastTransactions
   );
@@ -58,7 +40,7 @@ const Overview = () => {
         <Dashboard
           Component={
             <div>
-              <h1>Welcome {user.fullName}</h1>
+              <Typography sx={{fontSize:{xs:'1.8rem', sm:'3rem'}}} variant="h3" component="h2">Welcome {user.fullName}</Typography>
               <Grid container spacing={5}>
                 <Grid item xs={12} md={6}>
                   <LastTransactions

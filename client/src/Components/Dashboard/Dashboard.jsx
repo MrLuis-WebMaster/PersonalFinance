@@ -8,7 +8,6 @@ import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
-import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -19,10 +18,10 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import MenuProfile from "../MenuProfile/MenuProfile";
-import DataUsageIcon from "@mui/icons-material/DataUsage";
-import AnalyticsIcon from "@mui/icons-material/Analytics";
-import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
-import CreateIcon from "@mui/icons-material/Create";
+import AddIcon from '@mui/icons-material/Add';
+import LeaderboardIcon from '@mui/icons-material/Leaderboard';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import TrendingDownIcon from '@mui/icons-material/TrendingDown';
 import MenuResponsive from '../MenuResponsive/MenuResponsive'
 
 const drawerWidth = 240;
@@ -121,7 +120,7 @@ const Dashboard = ({ Component }) => {
           >
             <MenuIcon />
           </IconButton>
-          <img src={Logo} alt="" />
+          <img src={Logo} alt="Logo" />
           <MenuProfile />
         </Toolbar>
       </AppBar>
@@ -158,7 +157,7 @@ const Dashboard = ({ Component }) => {
                     justifyContent: "center",
                   }}
                 >
-                  <DataUsageIcon />
+                  <LeaderboardIcon />
                 </ListItemIcon>
                 <ListItemText
                   primary="Overview"
@@ -183,7 +182,7 @@ const Dashboard = ({ Component }) => {
                     justifyContent: "center",
                   }}
                 >
-                  <AnalyticsIcon />
+                  <TrendingUpIcon />
                 </ListItemIcon>
                 <ListItemText
                   primary="Earnings"
@@ -208,7 +207,7 @@ const Dashboard = ({ Component }) => {
                     justifyContent: "center",
                   }}
                 >
-                  <AddCircleOutlinedIcon />
+                  <TrendingDownIcon />
                 </ListItemIcon>
                 <ListItemText
                   primary="Expenses"
@@ -233,7 +232,7 @@ const Dashboard = ({ Component }) => {
                     justifyContent: "center",
                   }}
                 >
-                  <CreateIcon />
+                  <AddIcon />
                 </ListItemIcon>
                 <ListItemText
                   primary="New transaction"

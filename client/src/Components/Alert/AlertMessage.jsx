@@ -5,11 +5,14 @@ export const InfoAlert = Swal.mixin({
   toast: true,
   position: "bottom-end",
   icon: "success",
-  background: "#F9F9F9",
+  background: "#F6F6F6",
   showConfirmButton: false,
-  iconColor: "#000",
+  iconColor: "#3EC70B",
   timer: 3000,
   timerProgressBar: true,
+  customClass: {
+    timerProgressBar: 'bg-alert-progress-bar',
+  },
   didOpen: (toast) => {
     toast.addEventListener("mouseenter", Swal.stopTimer);
     toast.addEventListener("mouseleave", Swal.resumeTimer);
@@ -19,7 +22,7 @@ export const InfoAlert = Swal.mixin({
 export const ErrorAlert = Swal.mixin({
   icon: "warning",
   iconColor: "#FF2F2B",
-  background: "#F9F9F9",
+  background: "#F6F6F6",
   confirmButtonColor: "#000",
 });
 
@@ -27,12 +30,15 @@ export const WarningAlert = Swal.mixin({
   toast: true,
   position: "bottom-end",
   icon: "warning",
-  iconColor: "#FF2F2B",
-  background: "#F9F9F9",
+  iconColor: "#F2DF3A",
+  background: "#F6F6F6",
   confirmButtonColor: "#000",
   showConfirmButton: false,
   timer: 3000,
   timerProgressBar: true,
+  customClass: {
+    timerProgressBar: 'bg-alert-progress-bar',
+  },
   didOpen: (toast) => {
     toast.addEventListener("mouseenter", Swal.stopTimer);
     toast.addEventListener("mouseleave", Swal.resumeTimer);

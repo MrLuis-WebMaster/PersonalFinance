@@ -1,15 +1,26 @@
-import {useSelector, useDispatch} from 'react-redux';
-import { getAuth} from "firebase/auth";
-import { getUser } from '../Redux/slices/users/users'
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { getAuth,onAuthStateChanged } from "firebase/auth";
+import { getUser,resetUser } from "../Redux/slices/users/users";
 
 const useUser = () => {
-    const Dispatch = useDispatch();
-    const auth = getAuth();
+  const Dispatch = useDispatch();
+  const auth = getAuth();
+  const user = useSelector((state) => state.users.infoUser.userInfo);
+  useEffect(() => {
+    onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        Dispatch(getUser(currentUser));
+      } else {
+        Dispatch(resetUser());
+      }
+    });
+    return () => {
+      Dispatch(resetUser());
+    };
+  }, [Dispatch]);
 
-    const user = useSelector(state => state.users.infoUser.userInfo)
-    Dispatch(getUser(auth.currentUser))
-
-    return user;
-}
+  return user;
+};
 
 export default useUser;

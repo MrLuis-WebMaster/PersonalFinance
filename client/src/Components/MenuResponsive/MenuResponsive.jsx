@@ -36,7 +36,7 @@ export default function MenuResponsive() {
   };
 
   return (
-    <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, display:{xs:'block',sm:'none'} }} elevation={3}>
+    <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, display:{xs:'block',sm:'none'}, zIndex:'1000' }} elevation={3}>
     <BottomNavigation
       showLabels
       value={value}
