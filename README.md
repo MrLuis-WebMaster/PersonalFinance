@@ -12,7 +12,7 @@ Small application for personal financial transactions, where you can keep track 
 - Income list
 - List of expenses
 - Delete or update transactions
-- transaction balance
+- Transaction balance
 
 
 ## Deploy
